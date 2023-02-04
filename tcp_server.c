@@ -18,17 +18,17 @@ void error(const char *msg)
 int main(int argc, char *argv[])
 {
     /* 1. What is argc and *argv[]?
-     *
+     *  argc is the number of strings pointed to by argv then passed to main()
      */
     int sockfd, newsockfd, portno;
     /* 2. What is a UNIX file descriptor and file descriptor table?
-     *
+     *  A UNIV file descriptor is an identifier for a file such as a network socket, while a file descriptor table is the collection of integer array indices that are file descriptors in which elements are pointers to file table entries.
      */
     socklen_t clilen;
 
     struct sockaddr_in serv_addr, cli_addr;
     /* 3. What is a struct? What's the structure of sockaddr_in?
-     *
+     *  A struct is a way to group several related variables into one place. The structure of sockaddr_in is a 4-byte number that represents one digit in an IP address per byte.
      */
     
     int n;
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     /* 4. What are the input parameters and return value of socket()
-     *
+     *  The AF_INET and AF_INET6 constant is defined in the socket. socket() returns a nonnegative integer, the socket file descriptor.
      */
     
     if (sockfd < 0) 
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
              sizeof(serv_addr)) < 0) 
              error("ERROR on binding");
     /* 5. What are the input parameters of bind() and listen()?
-     *
+     *  The input parameters for bind() are host and port. The input parameter for listen() is the number of connecting waiting if the server is busy.
      */
     
     listen(sockfd,5);
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     
     while(1) {
         /* 6.  Why use while(1)? Based on the code below, what problems might occur if there are multiple simultaneous connections to handle?
-        *
+        *   while(1) creates an infinite loop. Limiting the amount of simultaneous connections means improved response times and avoiding congestion.
         */
         
 	char buffer[256];
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
                     (struct sockaddr *) &cli_addr, 
                     &clilen);
 	/* 7. Research how the command fork() works. How can it be applied here to better handle multiple connections?
-         * 
+         *  fork() allows multiple tasks to run independently of one another as though they each had the full memory of the machine to themselves.
          */
         
 	if (newsockfd < 0) 
@@ -91,5 +91,5 @@ int main(int argc, char *argv[])
 }
   
 /* This program makes several system calls such as 'bind', and 'listen.' What exactly is a system call?
- *
+ *  System call is the programmatic way in which a computer program requests a service from the operating system on which it was executed.
  */
